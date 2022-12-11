@@ -21,6 +21,9 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
+      tag:
+        required: false
+        default: '20221001'
 #  schedule:
 #    - cron: 0 8 * * 5
 
@@ -65,7 +68,7 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-        git checkout tags/20221001 -b build
+        git checkout tags/${{github.event.inputs.tag}} -b build
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
