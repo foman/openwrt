@@ -13,7 +13,7 @@ name: Build OpenWrt
 on:
   push:
     branches:
-      - main
+      - release
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -39,6 +39,7 @@ env:
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
+  REPO_TAG: 20221001
   TZ: Asia/Shanghai
 
 jobs:
@@ -68,7 +69,7 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-        git checkout tags/${{github.event.inputs.tag}} -b build
+        git checkout tags/${{github.event.inputs.tag}} -b build | git checkout tags/$REPO_TAG -b build
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
